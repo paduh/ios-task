@@ -9,7 +9,7 @@ import UIKit
 public class ImageService {
 
     /** The `MapleBacon` image manager instance which we're using for image fetching and caching. */
-    private let imageManager = ImageManager.sharedManager
+    private let imageManager = MapleBacon.shared
 
     /**
      Designated initializer.
@@ -18,7 +18,7 @@ public class ImageService {
         - maximumCacheTime:   The maximum storage time of the cached images. (Default: 1 Day)
      */
     public init(maximumCacheTime: TimeInterval = 60 * 60 * 24) {
-        DiskStorage.sharedStorage.maxAge = maximumCacheTime
+        imageManager.maxCacheAgeSeconds = maximumCacheTime
     }
 
     /**
@@ -30,15 +30,14 @@ public class ImageService {
      */
     public func getImage(url: URL) -> Observable<UIImage> {
         return Observable.create { [imageManager] observer in
-            let download = imageManager.downloadImage(atUrl: url, cacheScaled: true, imageView: nil,
-                                                      completion: { (imageInstance, error) in
-                if let unwrappedError = error {
-                    observer.onError(unwrappedError)
-                }
-                if let image = imageInstance?.image {
+            let download = imageManager.image(with: url) { (result) in
+                switch result {
+                case .failure(let error):
+                     observer.onError(error)
+                case .success(let image):
                     observer.onNext(image)
                 }
-            })
+            }
             return Disposables.create(with: download?.cancel ?? {})
         }
     }
