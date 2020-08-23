@@ -22,13 +22,32 @@ class CampaignListingViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
+        handeLoadCampaignList()
+    }
+    
+    private func handeLoadCampaignList() {
         // Load the campaign list and display it as soon as it is available.
         ServiceLocator.instance.networkingService
             .createObservableResponse(request: CampaignListingRequest())
             .observeOn(MainScheduler.instance)
-            .subscribe(onNext: { [weak self] campaigns in
-                self?.typedView.display(campaigns: campaigns)
-            })
-            .disposed(by: disposeBag)
+            .subscribe { [weak self] (event) in
+                guard let `self` =  self else { return }
+                switch event {
+                case .error(_):
+                    self.typedView.displayError(delegate: self)
+                case .next(let campaigns):
+                    self.typedView.display(campaigns: campaigns)
+                case .completed:
+                    break
+                }
+        }.disposed(by: disposeBag)
+    }
+}
+
+// CampaignErrorCellDelegate conformance for retry button action call
+extension CampaignListingViewController: CampaignErrorCellDelegate {
+    func didSelectRetry() {
+        typedView.displayLoading()
+        handeLoadCampaignList()
     }
 }

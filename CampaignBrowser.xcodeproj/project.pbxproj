@@ -21,6 +21,12 @@
 		23F7B5DE1F59A71B00154DD9 /* Campaign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F7B5DD1F59A71B00154DD9 /* Campaign.swift */; };
 		23F7B5E01F59A73000154DD9 /* CampaignListingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F7B5DF1F59A73000154DD9 /* CampaignListingView.swift */; };
 		B8B5F1F166845F0ECFBB5E7F /* Pods_CampaignBrowser.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6EE6F773D7D1702E9482B13D /* Pods_CampaignBrowser.framework */; };
+		C99DC40424F2DCF600E20FDD /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DC40324F2DCF600E20FDD /* UICollectionView+Extension.swift */; };
+		C99DC40724F2DD5200E20FDD /* CampaignErrorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DC40524F2DD5200E20FDD /* CampaignErrorCell.swift */; };
+		C99DC40824F2DD5200E20FDD /* CampaignErrorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99DC40624F2DD5200E20FDD /* CampaignErrorCell.xib */; };
+		C99DC40C24F3262200E20FDD /* CampaignCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99DC40A24F3262100E20FDD /* CampaignCell.xib */; };
+		C99DC40F24F3268B00E20FDD /* LoadingIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99DC40D24F3268B00E20FDD /* LoadingIndicatorCell.swift */; };
+		C99DC41024F3268B00E20FDD /* LoadingIndicatorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = C99DC40E24F3268B00E20FDD /* LoadingIndicatorCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,6 +61,12 @@
 		23F7B5E11F59A76A00154DD9 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		47520166195A4003183C8D8A /* Pods-CampaignBrowser.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CampaignBrowser.release.xcconfig"; path = "Pods/Target Support Files/Pods-CampaignBrowser/Pods-CampaignBrowser.release.xcconfig"; sourceTree = "<group>"; };
 		6EE6F773D7D1702E9482B13D /* Pods_CampaignBrowser.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CampaignBrowser.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C99DC40324F2DCF600E20FDD /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
+		C99DC40524F2DD5200E20FDD /* CampaignErrorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CampaignErrorCell.swift; sourceTree = "<group>"; };
+		C99DC40624F2DD5200E20FDD /* CampaignErrorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CampaignErrorCell.xib; sourceTree = "<group>"; };
+		C99DC40A24F3262100E20FDD /* CampaignCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CampaignCell.xib; sourceTree = "<group>"; };
+		C99DC40D24F3268B00E20FDD /* LoadingIndicatorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorCell.swift; sourceTree = "<group>"; };
+		C99DC40E24F3268B00E20FDD /* LoadingIndicatorCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingIndicatorCell.xib; sourceTree = "<group>"; };
 		EFF862F2521D154547AA0BBB /* Pods-CampaignBrowser.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CampaignBrowser.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CampaignBrowser/Pods-CampaignBrowser.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,6 +114,7 @@
 		23F7B5981F5958F300154DD9 /* CampaignBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				C99DC40224F2DCDA00E20FDD /* Extension */,
 				23F7B5D21F59983200154DD9 /* Components */,
 				23F7B5CB1F5981D300154DD9 /* Services */,
 				23F7B5C21F596CC300154DD9 /* Models */,
@@ -146,6 +159,11 @@
 			isa = PBXGroup;
 			children = (
 				23F7B5C51F596F7F00154DD9 /* CampaignCell.swift */,
+				C99DC40A24F3262100E20FDD /* CampaignCell.xib */,
+				C99DC40524F2DD5200E20FDD /* CampaignErrorCell.swift */,
+				C99DC40624F2DD5200E20FDD /* CampaignErrorCell.xib */,
+				C99DC40D24F3268B00E20FDD /* LoadingIndicatorCell.swift */,
+				C99DC40E24F3268B00E20FDD /* LoadingIndicatorCell.xib */,
 			);
 			name = Cells;
 			sourceTree = "<group>";
@@ -191,6 +209,14 @@
 				47520166195A4003183C8D8A /* Pods-CampaignBrowser.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		C99DC40224F2DCDA00E20FDD /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				C99DC40324F2DCF600E20FDD /* UICollectionView+Extension.swift */,
+			);
+			name = Extension;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -281,6 +307,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C99DC41024F3268B00E20FDD /* LoadingIndicatorCell.xib in Resources */,
+				C99DC40824F2DD5200E20FDD /* CampaignErrorCell.xib in Resources */,
+				C99DC40C24F3262200E20FDD /* CampaignCell.xib in Resources */,
 				23F7B5A41F5958F300154DD9 /* LaunchScreen.storyboard in Resources */,
 				23F7B5A11F5958F300154DD9 /* Assets.xcassets in Resources */,
 				23F7B59F1F5958F300154DD9 /* Main.storyboard in Resources */,
@@ -346,12 +375,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C99DC40724F2DD5200E20FDD /* CampaignErrorCell.swift in Sources */,
 				23F7B5DC1F59A70E00154DD9 /* ServiceLocator.swift in Sources */,
 				23F7B59A1F5958F300154DD9 /* AppDelegate.swift in Sources */,
 				23F7B5DB1F59A70E00154DD9 /* NetworkingService.swift in Sources */,
 				23F7B5C61F596F7F00154DD9 /* CampaignCell.swift in Sources */,
 				23F7B5BC1F595A1800154DD9 /* CampaingListingViewController.swift in Sources */,
 				23F7B5D61F59985300154DD9 /* LabelWithPadding.swift in Sources */,
+				C99DC40424F2DCF600E20FDD /* UICollectionView+Extension.swift in Sources */,
+				C99DC40F24F3268B00E20FDD /* LoadingIndicatorCell.swift in Sources */,
 				23F7B5E01F59A73000154DD9 /* CampaignListingView.swift in Sources */,
 				23F7B5DE1F59A71B00154DD9 /* Campaign.swift in Sources */,
 				23F7B5DA1F59A70E00154DD9 /* ImageService.swift in Sources */,

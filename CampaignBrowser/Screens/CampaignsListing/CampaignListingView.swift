@@ -6,32 +6,52 @@ import UIKit
  view controller is the `CampaignsListingViewController`.
  */
 class CampaignListingView: UICollectionView {
-
+    
     /**
      A strong reference to the view's data source. Needed because the view's dataSource property from UIKit is weak.
      */
     @IBOutlet var strongDataSource: UICollectionViewDataSource!
-
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+       setupCells()
+    }
+    
     /**
-     All the possible cell types that are used in this collection view.
+        Handles the setup/registration of cells
      */
-    enum Cells: String {
-
-        /** The cell which is used to display the loading indicator. */
-        case loadingIndicatorCell
-
-        /** The cell which is used to display a campaign. */
-        case campaignCell
+    
+    private func setupCells() {
+        self.register(CampaignErrorCell.self)
+        self.register(CampaignCell.self)
+        self.register(LoadingIndicatorCell.self)
     }
 
     /**
      Displays the given campaign list.
      */
     func display(campaigns: CampaignList) {
-        let campaignDataSource = ListingDataSource(campaigns: campaigns)
-        dataSource = campaignDataSource
-        delegate = campaignDataSource
-        strongDataSource = campaignDataSource
+        handleSetup(dataSource: ListingDataSource(campaigns: campaigns))
+    }
+    
+    /**
+     Displays loading indicator cell.
+     */
+    func displayLoading() {
+        handleSetup(dataSource: LoadingDataSource())
+    }
+
+    /**
+     Displays error cell.
+     */
+    func displayError(delegate: CampaignErrorCellDelegate) {
+        handleSetup(dataSource: ErrorDataSource(delegate: delegate))
+    }
+
+    private func handleSetup<T>(dataSource: T) where T: UICollectionViewDataSource, T: UICollectionViewDelegate {
+        self.dataSource = dataSource
+        delegate = dataSource
+        strongDataSource = dataSource
         reloadData()
     }
 }
@@ -61,16 +81,11 @@ class ListingDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let campaign = campaigns[indexPath.item]
-        let reuseIdentifier =  CampaignListingView.Cells.campaignCell.rawValue
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
-        if let campaignCell = cell as? CampaignCell {
-            campaignCell.moodImage = campaign.moodImage
-            campaignCell.name = campaign.name
-            campaignCell.descriptionText = campaign.description
-        } else {
-            assertionFailure("The cell should a CampaignCell")
-        }
-        return cell
+        let campaignCell = collectionView.dequeue(CampaignCell.self, for: indexPath)
+        campaignCell.moodImage = campaign.moodImage
+        campaignCell.name = campaign.name
+        campaignCell.descriptionText = campaign.description
+        return campaignCell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
@@ -93,9 +108,42 @@ class LoadingDataSource: NSObject, UICollectionViewDataSource, UICollectionViewD
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let reuseIdentifier = CampaignListingView.Cells.loadingIndicatorCell.rawValue
-        return collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier,
-                                                  for: indexPath)
+        
+        return collectionView.dequeue(LoadingIndicatorCell.self, for: indexPath)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return collectionView.frame.size
+    }
+}
+
+
+/**
+ This is the data source for the `CampaignsListingView` that is used when an error occurs
+ */
+  class ErrorDataSource: NSObject, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    
+  
+    var delegate: CampaignErrorCellDelegate?
+    /**
+     Initializer.
+     - Parameter CampaignErrorCellDelegate
+     */
+    init(delegate: CampaignErrorCellDelegate) {
+        self.delegate = delegate
+    }
+        
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 1
+    }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeue(CampaignErrorCell.self, for: indexPath)
+        cell.delegate = delegate
+        return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout,
